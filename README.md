@@ -7,6 +7,10 @@ Projeto de chat instantâneo.
 
 | Entidades | Atributos |
 | - | - |
+| connections | id, admin_id, user_id, created_at, updated at |
+| users | id, email, created_at |
+| messages | id, admin_id, user_id, text, created_at |
+| settings | id, username, chat, created_at, updated_at |
 
 ## Funcionalidades
 
@@ -14,6 +18,7 @@ Projeto de chat instantâneo.
 
 - Express
 - Typeorm
+- SQLite
 
 ## Iniciando o projeto
 
