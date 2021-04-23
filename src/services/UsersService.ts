@@ -10,7 +10,7 @@ class UsersService {
   }
 
   async create(email: string): Promise<User> {
-    const userExists = this.usersRepository.findOne({
+    const userExists = await this.usersRepository.findOne({
       email,
     });
 

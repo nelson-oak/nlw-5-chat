@@ -4,8 +4,8 @@ import { MessagesService } from '../services/MessagesService';
 import { UsersService } from '../services/UsersService';
 
 interface IParams {
-  text: string;
   email: string;
+  text: string;
 }
 
 io.on('connect', socket => {
@@ -50,6 +50,32 @@ io.on('connect', socket => {
     await messagesService.create({
       user_id,
       text,
-    })
+    });
+
+    const allMessages = await messagesService.listByUser(user_id);
+
+    socket.emit('client_list_all_messages', allMessages);
+
+    const allUsers = await connectionsService.findAllWithoutAdmin();
+
+    io.emit('admin_list_all_users', allUsers)
+  });
+
+  socket.on('client_send_to_admin', async params => {
+    const { text, socket_admin_id } = params;
+
+    const socket_id = socket.id;
+
+    const { user_id } = await connectionsService.findBySocketID(socket_id);
+
+    const message = await messagesService.create({
+      text,
+      user_id,
+    });
+
+    io.to(socket_admin_id).emit('admin_receive_message', {
+      message,
+      socket_id,
+    });
   })
 });
