@@ -22,7 +22,10 @@ app.set('view engine', 'html');
 // Renderizar tela
 app.get('/pages/client', (request, response) => {
   return response.render('html/client.html');
-})
+});
+app.get('/pages/admin', (request, response) => {
+  return response.render('html/admin.html');
+});
 
 app.use(express.json())
 
